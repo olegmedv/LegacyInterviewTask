@@ -1,40 +1,45 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
-using System.Xml.Serialization;
+using AppToRefactoring.Interface;
 using AppToRefactoring.Model;
 
 namespace AppToRefactoring.Parsers;
-
-public class XmlParser
+public class XmlParser : IParser
 {
-    private readonly string _path;
-    private XmlReader? _xmlReader;
-    private XmlSerializer? _xmlSerializer;
+    private XmlReader reader;
 
-    public XmlParser(string path)
+    public void Open(string path)
     {
-        _path = path;
+        reader = XmlReader.Create(path);
     }
 
-    public void StartParse()
+    public void Close()
     {
-        _xmlReader = XmlReader.Create(_path);
-        _xmlReader.MoveToContent();
-        _xmlReader.ReadToDescendant("Asset");
-
-        _xmlSerializer = new XmlSerializer(typeof(Asset));
+        reader.Close();
     }
 
-    public void EndParse()
+    public List<Asset> ReadData()
     {
-        _xmlReader?.Close();
-    }
+        List<Asset> assets = new List<Asset>();
 
-    internal Asset? GetNextAsset()
-    {
-        if (_xmlReader == null)
-            return null;
+        while (reader.Read())
+        {
+            if (reader.NodeType == XmlNodeType.Element && reader.Name == "Asset")
+            {
+                reader.ReadToFollowing("Currency1");
+                string currency1 = reader.ReadElementContentAsString();
 
-        return _xmlSerializer?.Deserialize(_xmlReader) as Asset;
+                reader.ReadToFollowing("Currency2");
+                string currency2 = reader.ReadElementContentAsString();
+
+                reader.ReadToFollowing("Ratio");
+                decimal ratio = Convert.ToDecimal(reader.ReadElementContentAsString());
+
+                assets.Add(new Asset { Currency1 = currency1, Currency2 = currency2, Ratio = ratio });
+            }
+        }
+
+        return assets;
     }
 }

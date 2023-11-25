@@ -1,46 +1,37 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System;
+using System.IO;
 using AppToRefactoring.Model;
+using AppToRefactoring.Interface;
 
 namespace AppToRefactoring.Parsers;
-
-public class TextParser
+public class TextParser : IParser
 {
-    private FileStream? _fileStream;
-    private StreamReader? _streamReader;
+    private StreamReader reader;
 
     public void Open(string path)
     {
-        _fileStream = File.OpenRead(path);
-        _streamReader = new StreamReader(_fileStream);
+        reader = new StreamReader(path);
     }
 
     public void Close()
     {
-        _streamReader?.Close();
-        _fileStream?.Close();
+        reader.Close();
     }
 
-    public bool HasReachedEnd
+    public List<Asset> ReadData()
     {
-        get
-        {
-            if (_streamReader is null)
-                return true;
+        List<Asset> assets = new List<Asset>();
 
-            return _streamReader.Peek() < 0;
+        while (!reader.EndOfStream)
+        {
+            string currency1 = reader.ReadLine();
+            string currency2 = reader.ReadLine();
+            decimal ratio = Convert.ToDecimal(reader.ReadLine());
+
+            assets.Add(new Asset { Currency1 = currency1, Currency2 = currency2, Ratio = ratio });
         }
-    }
 
-    public Asset? GetAsset()
-    {
-        if (_streamReader is null)
-            return null;
-
-        return new Asset
-        {
-            Currency1 = _streamReader.ReadLine(),
-            Currency2 = _streamReader.ReadLine(),
-            Ratio = decimal.Parse(_streamReader.ReadLine() ?? "0")
-        };
+        return assets;
     }
 }
