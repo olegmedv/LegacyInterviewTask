@@ -1,0 +1,9 @@
+EUR
+USD
+1.13
+EUR
+RUB
+141.37
+USD
+CAD
+1.27

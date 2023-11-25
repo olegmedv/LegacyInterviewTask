@@ -1,0 +1,88 @@
+﻿<Window x:Class="AppToRefactoring.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <SolidColorBrush x:Key="TextForegroundBrush" Color="Black"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="DarkSlateGray"/>
+        <SolidColorBrush x:Key="BorderBackgroundBrush" Color="LightGray"/>
+
+        <ControlTemplate x:Key="LoadButtonTemplate" TargetType="{x:Type Button}">
+            <Border BorderThickness="2"
+                    CornerRadius="5"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{StaticResource BorderBackgroundBrush}">
+                <Label Foreground="{StaticResource TextForegroundBrush}"
+                       HorizontalAlignment="Center"
+                       Content="{TemplateBinding Content}"
+                       FontSize="15"
+                       Margin="8,0,8,0"/>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Border BorderThickness="2"
+                CornerRadius="5"
+                Padding="5"
+                Margin="10"
+                BorderBrush="{StaticResource ResourceKey=BorderBrush}"
+                Background="{StaticResource ResourceKey=BorderBackgroundBrush}"
+                SnapsToDevicePixels="True">
+            <DockPanel>
+                <StackPanel Margin="5" DockPanel.Dock="Right">
+                    <Label Content="Format:" />
+                    <ComboBox Name="ComboBoxFileFormat"
+                              HorizontalAlignment="Left"
+                              HorizontalContentAlignment="Center"
+                              VerticalContentAlignment="Center"
+                              IsEditable="False"
+                              Foreground="{StaticResource TextForegroundBrush}"
+                              IsReadOnly="True" />
+                </StackPanel>
+                <StackPanel Margin="5">
+                    <Label Content="Directory to search:" />
+                    <TextBox Name="TextBoxDirPath" Foreground="{StaticResource TextForegroundBrush}" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <ListBox Grid.Row="1"
+                 Margin="10"
+                 Name="ListBoxAssets"
+                 HorizontalContentAlignment="Stretch"
+                 Background="{StaticResource BorderBackgroundBrush}">
+            <ListBox.Template>
+                <ControlTemplate>
+                    <Border BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="5"
+                            BorderBrush="{StaticResource ResourceKey=BorderBrush}"
+                            Background="{StaticResource ResourceKey=BorderBackgroundBrush}"
+                            SnapsToDevicePixels="True">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </ListBox.Template>
+        </ListBox>
+
+        <Grid Grid.Row="2">
+            <Button Width="160"
+                    Margin="10"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    Click="OnLoadButtonClick"
+                    Template="{StaticResource LoadButtonTemplate}"
+                    Content="Load" />
+        </Grid>
+    </Grid>
+</Window>

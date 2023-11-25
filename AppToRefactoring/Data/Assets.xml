@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Assets>
+    <Asset>
+        <Currency1>EUR</Currency1>
+        <Currency2>USD</Currency2>
+        <Ratio>1.08</Ratio>
+    </Asset>
+    <Asset>
+        <Currency1>CAD</Currency1>
+        <Currency2>JPY</Currency2>
+        <Ratio>90.47</Ratio>
+    </Asset>
+    <Asset>
+        <Currency1>CNY</Currency1>
+        <Currency2>EUR</Currency2>
+        <Ratio>0.15</Ratio>
+    </Asset>
+</Assets>
