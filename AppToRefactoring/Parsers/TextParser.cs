@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using AppToRefactoring.Model;
 using AppToRefactoring.Interface;
+using System.Globalization;
 
 namespace AppToRefactoring.Parsers;
 public class TextParser : IParser
@@ -27,7 +28,7 @@ public class TextParser : IParser
         {
             string currency1 = reader.ReadLine();
             string currency2 = reader.ReadLine();
-            decimal ratio = Convert.ToDecimal(reader.ReadLine());
+            decimal ratio = Convert.ToDecimal(reader.ReadLine(), CultureInfo.InvariantCulture);
 
             assets.Add(new Asset { Currency1 = currency1, Currency2 = currency2, Ratio = ratio });
         }

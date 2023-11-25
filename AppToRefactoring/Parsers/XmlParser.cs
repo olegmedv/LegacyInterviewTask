@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml;
 using AppToRefactoring.Interface;
 using AppToRefactoring.Model;
@@ -34,7 +35,7 @@ public class XmlParser : IParser
                 string currency2 = reader.ReadElementContentAsString();
 
                 reader.ReadToFollowing("Ratio");
-                decimal ratio = Convert.ToDecimal(reader.ReadElementContentAsString());
+                decimal ratio = Convert.ToDecimal(reader.ReadElementContentAsString(), CultureInfo.InvariantCulture);
 
                 assets.Add(new Asset { Currency1 = currency1, Currency2 = currency2, Ratio = ratio });
             }

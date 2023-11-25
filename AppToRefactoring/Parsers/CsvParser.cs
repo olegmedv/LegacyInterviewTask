@@ -2,6 +2,7 @@
 using AppToRefactoring.Model;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,12 +28,14 @@ namespace AppToRefactoring.Parsers
         {
             List<Asset> assets = new List<Asset>();
 
+            reader.ReadLine();
+
             while (!reader.EndOfStream)
             {
                 string[] values = reader.ReadLine().Split(';');
                 string currency1 = values[0];
                 string currency2 = values[1];
-                decimal ratio = Convert.ToDecimal(values[2]);
+                decimal ratio = Convert.ToDecimal(values[2], CultureInfo.InvariantCulture);
 
                 assets.Add(new Asset { Currency1 = currency1, Currency2 = currency2, Ratio = ratio });
             }
